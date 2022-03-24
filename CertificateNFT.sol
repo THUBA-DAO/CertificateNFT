@@ -24,6 +24,20 @@ contract CertificateNFT is ERC721URIStorage, Ownable {
         _setTokenURI(newItemId, tokenURI);
     }
 
+    function awardMany(address[] memory students, string memory tokenURI)
+        public
+        onlyOwner
+    {
+        require(students.length > 0); // in case passes an empty array
+        uint256 newItemId;
+        for (uint i = 0; i < students.length; i ++) {
+            _tokenIds.increment();
+            newItemId = _tokenIds.current();
+            _mint(students[i], newItemId);
+            _setTokenURI(newItemId, tokenURI);
+        }
+    }
+
     function _transfer(
         address from,
         address to,
